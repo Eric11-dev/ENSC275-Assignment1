@@ -10,7 +10,7 @@ public class GUI implements ActionListener {
 
     private static JLabel componentsLable,voltageLable,capacitorLable,inductorLable,resistorLable, runTimeLable,timeStepLable;
     private static JLabel timeLable,fileLable,fileNameLable,filePathLable;
-    private static JLabel voltageError,capacitorError,inductorError,resistorError;
+    private static JLabel voltageError,capacitorError,inductorError,resistorError,timeError;
     private static JLabel voltageRange,capacitorRange,inductorRange,resistorRange;
     private static JTextField voltageField,capacitorField,inductorField,resistorField, runTimeField,timeStepField,fileNameField,filePathField;
     private static JButton submitButton,checkButton;
@@ -27,7 +27,7 @@ public class GUI implements ActionListener {
         componentsLable = new JLabel("Components value:");
         componentsLable.setBounds(10,20,150,25);
         panel.add(componentsLable);
-        /*Voltage Input*/
+        /*Voltage Inputs*/
         voltageLable = new JLabel("Voltage (V)");
         voltageLable.setBounds(10,50,80,25);
         panel.add(voltageLable);
@@ -44,7 +44,7 @@ public class GUI implements ActionListener {
         voltageError.setBounds(330,50,120,25);
         panel.add(voltageError);
 
-        /*Capacitor Input*/
+        /*Capacitor Inputs*/
         capacitorLable = new JLabel("Capacitor (F)");
         capacitorLable.setBounds(10,80,100,25);
         panel.add(capacitorLable);
@@ -61,7 +61,7 @@ public class GUI implements ActionListener {
         capacitorError.setBounds(330,80,120,25);
         panel.add(capacitorError);
 
-        /*Inductor Input*/
+        /*Inductor Inputs*/
         inductorLable = new JLabel("Inductor (H)");
         inductorLable.setBounds(10,110,100,25);
         panel.add(inductorLable);
@@ -78,7 +78,7 @@ public class GUI implements ActionListener {
         inductorError.setBounds(330,110,120,25);
         panel.add(inductorError);
 
-        /*Resistor Input*/
+        /*Resistor Inputs*/
         resistorLable = new JLabel("Resistor (Ω)");
         resistorLable.setBounds(10,140,100,25);
         panel.add(resistorLable);
@@ -94,11 +94,11 @@ public class GUI implements ActionListener {
         resistorError = new JLabel("...");
         resistorError.setBounds(330,140,120,25);
         panel.add(resistorError);
-        /*Running time input*/
+        /*Time inputs*/
         timeLable = new JLabel("Running Time and time step: ");
         timeLable.setBounds(10,180,180,25);
         panel.add(timeLable);
-
+        /*Running time inputs*/
         runTimeLable = new JLabel("End Time (s)");
         runTimeLable.setBounds(10,210,100,25);
         panel.add(runTimeLable);
@@ -106,7 +106,7 @@ public class GUI implements ActionListener {
         runTimeField = new JTextField(10);
         runTimeField.setBounds(90,210,100,25);
         panel.add(runTimeField);
-        /*Time step input*/
+        /*Time step inputs*/
         timeStepLable = new JLabel("Tiem Step (s)");
         timeStepLable.setBounds(10,240,100,25);
         panel.add(timeStepLable);
@@ -115,10 +115,10 @@ public class GUI implements ActionListener {
         timeStepField.setBounds(90,240,100,25);
         panel.add(timeStepField);
 
-        timeStepLable = new JLabel("Tiem Step");
-        timeStepLable.setBounds(10,240,100,25);
-        panel.add(timeStepLable);
-
+        timeError = new JLabel("...");
+        timeError.setBounds(200,240,250,25);
+        panel.add(timeError);
+        /*Check Validate button*/
         checkButton = new JButton("Check validate");
         checkButton.setBounds(10,280,150,25);
         checkButton.addActionListener(new GUI());
@@ -127,7 +127,7 @@ public class GUI implements ActionListener {
         fileLable = new JLabel("Enter file name and file path: ");
         fileLable.setBounds(10,310,200,25);
         panel.add(fileLable);
-        /*File name input*/
+        /*File name inputs*/
         fileNameLable = new JLabel("File name: ");
         fileNameLable.setBounds(10,340,100,25);
         panel.add(fileNameLable);
@@ -221,6 +221,11 @@ public class GUI implements ActionListener {
         if(Double.parseDouble(timeStepText) <= Double.parseDouble(runTimeText)){
             components.setEndTime(Double.parseDouble(runTimeText));
             components.setTimeStep(Double.parseDouble(timeStepText));
+            timeError.setForeground(Color.BLUE);
+            timeError.setText("Value Validated");
+        }else {
+            timeError.setForeground(Color.RED);
+            timeError.setText("Time step must less than Running time");
         }
     }
 
