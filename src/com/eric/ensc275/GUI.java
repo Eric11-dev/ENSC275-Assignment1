@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.util.List;
 
 public class GUI implements ActionListener {
-
+    /*Initialize the Labels, Fields And Buttons*/
     private static JLabel componentsLable,voltageLable,capacitorLable,inductorLable,resistorLable, runTimeLable,timeStepLable;
-    private static JLabel timeLable,fileLable,fileNameLable,filePathLable;
+    private static JLabel timeLable,fileLable,fileNameLable,filePathLable,plotNameLable;
     private static JLabel voltageError,capacitorError,inductorError,resistorError,timeError;
     private static JLabel voltageRange,capacitorRange,inductorRange,resistorRange;
-    private static JTextField voltageField,capacitorField,inductorField,resistorField, runTimeField,timeStepField,fileNameField,filePathField;
-    private static JButton submitButton,checkButton;
+    private static JTextField voltageField,capacitorField,inductorField,resistorField, runTimeField,timeStepField,fileNameField,filePathField,plotNameField;
+    private static JButton submitButton,checkButton,imageButton;
 
     public static void panel(){
         /*Panel Initialize*/
@@ -135,19 +135,32 @@ public class GUI implements ActionListener {
         fileNameField = new JTextField(10);
         fileNameField.setBounds(90,340,100,25);
         panel.add(fileNameField);
+        /*Plot Name Inputs*/
+        plotNameLable = new JLabel("Plot name: ");
+        plotNameLable.setBounds(10,370,100,25);
+        panel.add(plotNameLable);
+
+        plotNameField = new JTextField(10);
+        plotNameField.setBounds(90,370,100,25);
+        panel.add(plotNameField);
         /*File Path Input*/
-        filePathLable = new JLabel("File path: ");
-        filePathLable.setBounds(10,370,100,25);
+        filePathLable = new JLabel("Files path: ");
+        filePathLable.setBounds(10,400,100,25);
         panel.add(filePathLable);
 
         filePathField = new JTextField(100);
-        filePathField.setBounds(90,370,100,25);
+        filePathField.setBounds(90,400,100,25);
         panel.add(filePathField);
         /*Data Submit Button*/
         submitButton = new JButton("Submit");
-        submitButton.setBounds(10,400,80,25);
+        submitButton.setBounds(10,430,80,25);
         submitButton.addActionListener(new GUI());
         panel.add(submitButton);
+
+        imageButton = new JButton("Image");
+        imageButton.setBounds(300,430,80,25);
+        imageButton.addActionListener(new GUI());
+        panel.add(imageButton);
 
         frame.setVisible(true);
     }
@@ -163,7 +176,9 @@ public class GUI implements ActionListener {
         String runTimeText = runTimeField.getText();
         String timeStepText = timeStepField.getText();
         String fileNameText = fileNameField.getText();
+        String plotNameText = plotNameField.getText();
         String filePathText = filePathField.getText();
+
         /*Execute The Check Validate Button*/
         if(e.getSource() == checkButton){
             checkValidate(voltageText,capacitorText,inductorText,resistorText,runTimeText,timeStepText);
@@ -177,8 +192,9 @@ public class GUI implements ActionListener {
             List<Double> oscillatesValueList = null;
             try {
                 /*Calculate The q(t) and Store To a List*/
-                oscillatesValueList = components.DischargeCalculation(components.getVoltage(),components.getCapacitor(),components.getInductor(),components.getResistor(),
-                        components.getEndTime(),components.getTimeStep());
+                oscillatesValueList = components.DischargeCalculation(components.getVoltage(),components.getCapacitor(),
+                        components.getInductor(),components.getResistor(),
+                        components.getEndTime(),components.getTimeStep(),plotNameText,filePathText);
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
@@ -196,6 +212,19 @@ public class GUI implements ActionListener {
                 ioException.printStackTrace();
             }
         }
+        if(e.getSource() == imageButton){
+            CheckTheImage(plotNameText,filePathText);
+        }
+    }
+    /*Image File Open Method*/
+    public void CheckTheImage(String plotName,String filePath){
+        JFrame frame = new JFrame("Image");
+        frame.setSize(900,800);
+        String plotPath = filePath + plotName + ".png";
+        ImageIcon icon = new ImageIcon(plotPath);
+        JLabel label = new JLabel(icon);
+        frame.add(label);
+        frame.setVisible(true);
     }
 
     /*Input value validate check method*/

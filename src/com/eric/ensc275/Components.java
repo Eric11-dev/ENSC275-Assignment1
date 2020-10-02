@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Components {
     private double voltage;
     private double capacitor;
@@ -62,7 +61,8 @@ public class Components {
         this.resistor = resistor;
     }
 
-    public List<Double> DischargeCalculation(double voltageValue, double capacitorValue, double inductorValue, double resistorValue, double endTime, double timeStep) throws IOException {
+    public List<Double> DischargeCalculation(double voltageValue, double capacitorValue, double inductorValue, double resistorValue,
+                                             double endTime, double timeStep,String plotName, String filePath) throws IOException {
 
         double dampingFactor = resistorValue/(2*inductorValue);
         double q;
@@ -78,11 +78,11 @@ public class Components {
             t = t + timeStep;
         }
         /*Implement Plot Method*/
-        plot(qlist,timeList,endTime);
+        plot(qlist,timeList,endTime,plotName,filePath);
         return qlist;
     }
     /*Plot Method*/
-    public static void plot(List<Double> q, List<Double> time, double endTime) throws IOException {
+    public static void plot(List<Double> q, List<Double> time, double endTime, String plotName, String filePath) throws IOException {
         Plot plot = Plot.plot(Plot.plotOpts().
                 title("Capacitor Charge vs Time").
                 legend(Plot.LegendFormat.RIGHT)).
@@ -95,6 +95,7 @@ public class Components {
                         // Configuring Data Series
                         series("Data", Plot.data().xy(time, q),
                         Plot.seriesOpts().color(Color.black));
-        plot.save("Plot_output", "png");
+        plot.save(filePath + plotName, "png");
+        System.out.println("Plot Completed");
     }
 }
