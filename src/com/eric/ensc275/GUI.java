@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 public class GUI implements ActionListener {
@@ -16,14 +18,15 @@ public class GUI implements ActionListener {
     private static JButton submitButton,checkButton;
 
     public static void panel(){
+        /*Panel Initialize*/
         JPanel panel = new JPanel();
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame("RLC Circuit Discharge Panel");
         frame.setSize(500,600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
         panel.setLayout(null);
 
-        /*Components inputs*/
+        /*Components Data*/
         componentsLable = new JLabel("Components value:");
         componentsLable.setBounds(10,20,150,25);
         panel.add(componentsLable);
@@ -40,10 +43,9 @@ public class GUI implements ActionListener {
         voltageRange.setBounds(200,50,150,25);
         panel.add(voltageRange);
 
-        voltageError = new JLabel("...");
+        voltageError = new JLabel("Unverified");
         voltageError.setBounds(330,50,120,25);
         panel.add(voltageError);
-
         /*Capacitor Inputs*/
         capacitorLable = new JLabel("Capacitor (F)");
         capacitorLable.setBounds(10,80,100,25);
@@ -57,10 +59,9 @@ public class GUI implements ActionListener {
         capacitorRange.setBounds(200,80,150,25);
         panel.add(capacitorRange);
 
-        capacitorError = new JLabel("...");
+        capacitorError = new JLabel("Unverified");
         capacitorError.setBounds(330,80,120,25);
         panel.add(capacitorError);
-
         /*Inductor Inputs*/
         inductorLable = new JLabel("Inductor (H)");
         inductorLable.setBounds(10,110,100,25);
@@ -74,10 +75,9 @@ public class GUI implements ActionListener {
         inductorRange.setBounds(200,110,150,25);
         panel.add(inductorRange);
 
-        inductorError = new JLabel("...");
+        inductorError = new JLabel("Unverified");
         inductorError.setBounds(330,110,120,25);
         panel.add(inductorError);
-
         /*Resistor Inputs*/
         resistorLable = new JLabel("Resistor (Ω)");
         resistorLable.setBounds(10,140,100,25);
@@ -91,23 +91,23 @@ public class GUI implements ActionListener {
         resistorRange.setBounds(200,140,150,25);
         panel.add(resistorRange);
 
-        resistorError = new JLabel("...");
+        resistorError = new JLabel("Unverified");
         resistorError.setBounds(330,140,120,25);
         panel.add(resistorError);
-        /*Time inputs*/
+        /*Time Inputs*/
         timeLable = new JLabel("Running Time and time step: ");
         timeLable.setBounds(10,180,180,25);
         panel.add(timeLable);
-        /*Running time inputs*/
-        runTimeLable = new JLabel("End Time (s)");
+        /*Running Time Inputs*/
+        runTimeLable = new JLabel("Running Time (s)");
         runTimeLable.setBounds(10,210,100,25);
         panel.add(runTimeLable);
 
         runTimeField = new JTextField(10);
         runTimeField.setBounds(90,210,100,25);
         panel.add(runTimeField);
-        /*Time step inputs*/
-        timeStepLable = new JLabel("Tiem Step (s)");
+        /*Time Step Inputs*/
+        timeStepLable = new JLabel("Time Step (s)");
         timeStepLable.setBounds(10,240,100,25);
         panel.add(timeStepLable);
 
@@ -115,19 +115,19 @@ public class GUI implements ActionListener {
         timeStepField.setBounds(90,240,100,25);
         panel.add(timeStepField);
 
-        timeError = new JLabel("...");
+        timeError = new JLabel("Time Unverified");
         timeError.setBounds(200,240,250,25);
         panel.add(timeError);
-        /*Check Validate button*/
-        checkButton = new JButton("Check validate");
+        /*Check Validate Button*/
+        checkButton = new JButton("Check Validate");
         checkButton.setBounds(10,280,150,25);
         checkButton.addActionListener(new GUI());
         panel.add(checkButton);
-        /*File name and path*/
+        /*File Name And Path*/
         fileLable = new JLabel("Enter file name and file path: ");
         fileLable.setBounds(10,310,200,25);
         panel.add(fileLable);
-        /*File name inputs*/
+        /*File Name Inputs*/
         fileNameLable = new JLabel("File name: ");
         fileNameLable.setBounds(10,340,100,25);
         panel.add(fileNameLable);
@@ -135,7 +135,7 @@ public class GUI implements ActionListener {
         fileNameField = new JTextField(10);
         fileNameField.setBounds(90,340,100,25);
         panel.add(fileNameField);
-        /*File path input*/
+        /*File Path Input*/
         filePathLable = new JLabel("File path: ");
         filePathLable.setBounds(10,370,100,25);
         panel.add(filePathLable);
@@ -143,53 +143,73 @@ public class GUI implements ActionListener {
         filePathField = new JTextField(100);
         filePathField.setBounds(90,370,100,25);
         panel.add(filePathField);
-
-
+        /*Data Submit Button*/
         submitButton = new JButton("Submit");
         submitButton.setBounds(10,400,80,25);
         submitButton.addActionListener(new GUI());
         panel.add(submitButton);
-
 
         frame.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //System.out.println("button clicked");
+        /*Action On The Inputs*/
+        /*Initialize Inputs To String Type*/
         String voltageText = voltageField.getText();
         String capacitorText = capacitorField.getText();
         String inductorText = inductorField.getText();
         String resistorText = resistorField.getText();
         String runTimeText = runTimeField.getText();
         String timeStepText = timeStepField.getText();
-
-        Components components = new Components();
-
-
+        String fileNameText = fileNameField.getText();
+        String filePathText = filePathField.getText();
+        /*Execute The Check Validate Button*/
         if(e.getSource() == checkButton){
-            System.out.println("check button clicked");
             checkValidate(voltageText,capacitorText,inductorText,resistorText,runTimeText,timeStepText);
         }
-
+        /*Execute The Submit Button*/
         if(e.getSource() == submitButton){
-            /*System.out.println("submit button clicked");*/
-            List<Double> oscillatesValueList = components.Calculation(components.getVoltage(),components.getCapacitor(),components.getInductor(),components.getResistor(),
-                    components.getEndTime(),components.getTimeStep());
-
-            System.out.println(oscillatesValueList);
+            /*Data Validate Check*/
+            checkValidate(voltageText,capacitorText,inductorText,resistorText,runTimeText,timeStepText);
+            Components components = checkValidate(voltageText,capacitorText,inductorText,resistorText,runTimeText,timeStepText);
+            /*Initialize The Value Of q*/
+            List<Double> oscillatesValueList = null;
+            try {
+                /*Calculate The q(t) and Store To a List*/
+                oscillatesValueList = components.DischargeCalculation(components.getVoltage(),components.getCapacitor(),components.getInductor(),components.getResistor(),
+                        components.getEndTime(),components.getTimeStep());
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            /*Write Log file*/
+            String filePath = filePathText + fileNameText + ".txt";
+            try {
+                FileWriter fileWriter = new FileWriter(filePath);
+                for(int i =0; i < oscillatesValueList.size();i++){
+                    fileWriter.write(String.valueOf(oscillatesValueList.get(i)));
+                    fileWriter.write("\r\n");
+                }
+                fileWriter.flush();
+                fileWriter.close();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
-
     }
 
-
-    public void checkValidate(String voltageText, String capacitorText,String inductorText, String resistorText, String runTimeText, String timeStepText){
+    /*Input value validate check method*/
+    public Components checkValidate(String voltageText, String capacitorText,String inductorText, String resistorText, String runTimeText, String timeStepText){
         Components components = new Components();
+        /*Check Input Data's Validation*/
         if(Double.parseDouble(voltageText) >= 4 && Double.parseDouble(voltageText) <= 15){
+            /*Assign The Data To The Components Model*/
             components.setVoltage(Double.parseDouble(voltageText));
+            /*Input Data Validated And Show the Validated message*/
             voltageError.setForeground(Color.BLUE);
             voltageError.setText("Value Validated");
         }else {
+            /*Input Data Invalidated And Show Error Message*/
             voltageError.setForeground(Color.RED);
             voltageError.setText("Value out of range.");
         }
@@ -227,7 +247,6 @@ public class GUI implements ActionListener {
             timeError.setForeground(Color.RED);
             timeError.setText("Time step must less than Running time");
         }
+        return components;
     }
-
-
 }

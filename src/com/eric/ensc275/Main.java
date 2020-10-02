@@ -1,14 +1,10 @@
 package com.eric.ensc275;
 
-import java.security.Guard;
-
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+	// Execute The Code
         new GUI();
         GUI.panel();
-
-
     }
 }
