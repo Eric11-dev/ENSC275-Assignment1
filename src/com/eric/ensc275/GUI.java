@@ -1,9 +1,12 @@
 package com.eric.ensc275;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -230,19 +233,25 @@ public class GUI implements ActionListener {
             }
         }
         if(e.getSource() == imageButton){
-            CheckTheImage(plotNameText,filePathText);
+            try {
+                CheckTheImage(plotNameText,filePathText);
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
         }
     }
 
     /*Image File Open Method*/
-    public void CheckTheImage(String plotName,String filePath){
-        JFrame frame = new JFrame("Image");
-        frame.setSize(900,800);
+    public void CheckTheImage(String plotName,String filePath) throws IOException {
+
+        JFrame imageFrame = new JFrame(plotName);
+        imageFrame.setSize(900,800);
         String plotPath = filePath + plotName + ".png";
-        ImageIcon icon = new ImageIcon(plotPath);
-        JLabel label = new JLabel(icon);
-        frame.add(label);
-        frame.setVisible(true);
+        BufferedImage bufImg= ImageIO.read(new File(plotPath));
+        JLabel imageLable = new JLabel();
+        imageLable.setIcon(new ImageIcon(bufImg));
+        imageFrame.add(imageLable);
+        imageFrame.setVisible(true);
     }
 
     /*Input value validate check method*/
