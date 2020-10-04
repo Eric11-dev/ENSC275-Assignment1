@@ -12,7 +12,7 @@ public class Main {
      *
      */
     public static void main(String[] args) {
-	// Execute The Code
+	// Execute The GUI
         new GUI();
         GUI.panel();
     }

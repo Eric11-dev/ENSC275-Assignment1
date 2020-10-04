@@ -6,12 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-
+/*GUI Panel User Interface*/
 public class GUI implements ActionListener {
     /*Initialize the Labels, Fields And Buttons*/
     private static JLabel componentsLable,voltageLable,capacitorLable,inductorLable,resistorLable, runTimeLable,timeStepLable;
-    private static JLabel timeLable,fileLable,fileNameLable,filePathLable,plotNameLable;
+    private static JLabel timeLable,fileLable,fileNameLable,filePathLable,plotNameLable,imageHintLable;
     private static JLabel voltageError,capacitorError,inductorError,resistorError,timeError;
     private static JLabel voltageRange,capacitorRange,inductorRange,resistorRange;
     private static JTextField voltageField,capacitorField,inductorField,resistorField, runTimeField,timeStepField,fileNameField,filePathField,plotNameField;
@@ -20,7 +21,7 @@ public class GUI implements ActionListener {
     public static void panel(){
         /*Panel Initialize*/
         JPanel panel = new JPanel();
-        JFrame frame = new JFrame("RLC Circuit Discharge Panel");
+        JFrame frame = new JFrame("RLC Circuit Panel");
         frame.setSize(500,600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
@@ -31,96 +32,101 @@ public class GUI implements ActionListener {
         componentsLable.setBounds(10,20,150,25);
         panel.add(componentsLable);
         /*Voltage Inputs*/
-        voltageLable = new JLabel("Voltage (V)");
+        voltageLable = new JLabel("Voltage (V):");
         voltageLable.setBounds(10,50,80,25);
         panel.add(voltageLable);
 
         voltageField = new JTextField(10);
-        voltageField.setBounds(90,50,100,25);
+        voltageField.setBounds(110,50,100,25);
         panel.add(voltageField);
 
         voltageRange = new JLabel("(Range: 4V to 15V)");
-        voltageRange.setBounds(200,50,150,25);
+        voltageRange.setBounds(220,50,150,25);
         panel.add(voltageRange);
 
         voltageError = new JLabel("Unverified");
-        voltageError.setBounds(330,50,120,25);
+        voltageError.setForeground(Color.ORANGE);
+        voltageError.setBounds(350,50,120,25);
         panel.add(voltageError);
         /*Capacitor Inputs*/
-        capacitorLable = new JLabel("Capacitor (F)");
+        capacitorLable = new JLabel("Capacitor (F):");
         capacitorLable.setBounds(10,80,100,25);
         panel.add(capacitorLable);
 
         capacitorField = new JTextField(10);
-        capacitorField.setBounds(90,80,100,25);
+        capacitorField.setBounds(110,80,100,25);
         panel.add(capacitorField);
 
         capacitorRange = new JLabel("(Range: 1E-9 to 1E-7)");
-        capacitorRange.setBounds(200,80,150,25);
+        capacitorRange.setBounds(220,80,150,25);
         panel.add(capacitorRange);
 
         capacitorError = new JLabel("Unverified");
-        capacitorError.setBounds(330,80,120,25);
+        capacitorError.setForeground(Color.ORANGE);
+        capacitorError.setBounds(350,80,120,25);
         panel.add(capacitorError);
         /*Inductor Inputs*/
-        inductorLable = new JLabel("Inductor (H)");
+        inductorLable = new JLabel("Inductor (H):");
         inductorLable.setBounds(10,110,100,25);
         panel.add(inductorLable);
 
         inductorField = new JTextField(10);
-        inductorField.setBounds(90,110,100,25);
+        inductorField.setBounds(110,110,100,25);
         panel.add(inductorField);
 
         inductorRange = new JLabel("(Range: 1E-3 to 1E-1)");
-        inductorRange.setBounds(200,110,150,25);
+        inductorRange.setBounds(220,110,150,25);
         panel.add(inductorRange);
 
         inductorError = new JLabel("Unverified");
-        inductorError.setBounds(330,110,120,25);
+        inductorError.setForeground(Color.ORANGE);
+        inductorError.setBounds(350,110,120,25);
         panel.add(inductorError);
         /*Resistor Inputs*/
-        resistorLable = new JLabel("Resistor (Ω)");
+        resistorLable = new JLabel("Resistor (Ω):");
         resistorLable.setBounds(10,140,100,25);
         panel.add(resistorLable);
 
         resistorField = new JTextField(10);
-        resistorField.setBounds(90,140,100,25);
+        resistorField.setBounds(110,140,100,25);
         panel.add(resistorField);
 
         resistorRange = new JLabel("(Range: 5Ω to 10Ω)");
-        resistorRange.setBounds(200,140,150,25);
+        resistorRange.setBounds(220,140,150,25);
         panel.add(resistorRange);
 
         resistorError = new JLabel("Unverified");
-        resistorError.setBounds(330,140,120,25);
+        resistorError.setForeground(Color.ORANGE);
+        resistorError.setBounds(350,140,120,25);
         panel.add(resistorError);
         /*Time Inputs*/
         timeLable = new JLabel("Running Time and time step: ");
         timeLable.setBounds(10,180,180,25);
         panel.add(timeLable);
         /*Running Time Inputs*/
-        runTimeLable = new JLabel("Running Time (s)");
+        runTimeLable = new JLabel("Running Time(s)");
         runTimeLable.setBounds(10,210,100,25);
         panel.add(runTimeLable);
 
         runTimeField = new JTextField(10);
-        runTimeField.setBounds(90,210,100,25);
+        runTimeField.setBounds(110,210,100,25);
         panel.add(runTimeField);
         /*Time Step Inputs*/
-        timeStepLable = new JLabel("Time Step (s)");
+        timeStepLable = new JLabel("Time Step(s)");
         timeStepLable.setBounds(10,240,100,25);
         panel.add(timeStepLable);
 
         timeStepField = new JTextField(10);
-        timeStepField.setBounds(90,240,100,25);
+        timeStepField.setBounds(110,240,100,25);
         panel.add(timeStepField);
 
         timeError = new JLabel("Time Unverified");
-        timeError.setBounds(200,240,250,25);
+        timeError.setForeground(Color.ORANGE);
+        timeError.setBounds(220,240,250,25);
         panel.add(timeError);
         /*Check Validate Button*/
         checkButton = new JButton("Check Validate");
-        checkButton.setBounds(10,280,150,25);
+        checkButton.setBounds(10,270,150,25);
         checkButton.addActionListener(new GUI());
         panel.add(checkButton);
         /*File Name And Path*/
@@ -128,28 +134,28 @@ public class GUI implements ActionListener {
         fileLable.setBounds(10,310,200,25);
         panel.add(fileLable);
         /*File Name Inputs*/
-        fileNameLable = new JLabel("File name: ");
+        fileNameLable = new JLabel("Log File Name: ");
         fileNameLable.setBounds(10,340,100,25);
         panel.add(fileNameLable);
 
         fileNameField = new JTextField(10);
-        fileNameField.setBounds(90,340,100,25);
+        fileNameField.setBounds(110,340,100,25);
         panel.add(fileNameField);
         /*Plot Name Inputs*/
-        plotNameLable = new JLabel("Plot name: ");
+        plotNameLable = new JLabel("Plot File Name: ");
         plotNameLable.setBounds(10,370,100,25);
         panel.add(plotNameLable);
 
         plotNameField = new JTextField(10);
-        plotNameField.setBounds(90,370,100,25);
+        plotNameField.setBounds(110,370,100,25);
         panel.add(plotNameField);
         /*File Path Input*/
-        filePathLable = new JLabel("Files path: ");
+        filePathLable = new JLabel("File Path: ");
         filePathLable.setBounds(10,400,100,25);
         panel.add(filePathLable);
 
         filePathField = new JTextField(100);
-        filePathField.setBounds(90,400,100,25);
+        filePathField.setBounds(110,400,100,25);
         panel.add(filePathField);
         /*Data Submit Button*/
         submitButton = new JButton("Submit");
@@ -157,8 +163,12 @@ public class GUI implements ActionListener {
         submitButton.addActionListener(new GUI());
         panel.add(submitButton);
 
-        imageButton = new JButton("Image");
-        imageButton.setBounds(300,430,80,25);
+        imageHintLable = new JLabel("Click to view the plot: ");
+        imageHintLable.setBounds(210,430,150,25);
+        panel.add(imageHintLable);
+
+        imageButton = new JButton("Plot");
+        imageButton.setBounds(340,430,80,25);
         imageButton.addActionListener(new GUI());
         panel.add(imageButton);
 
@@ -202,8 +212,15 @@ public class GUI implements ActionListener {
             String filePath = filePathText + fileNameText + ".txt";
             try {
                 FileWriter fileWriter = new FileWriter(filePath);
-                for(int i =0; i < oscillatesValueList.size();i++){
-                    fileWriter.write(String.valueOf(oscillatesValueList.get(i)));
+                fileWriter.write("Voltage: " + voltageText + " volts" + "\n");
+                fileWriter.write("Capacitor: " + capacitorText + " farads" + "\n");
+                fileWriter.write("Inductor: " + inductorText + " henrys" + "\n");
+                fileWriter.write("Resistor: " + resistorText + " ohms" + "\n");
+                fileWriter.write("Running Time: " + runTimeText + " sec" + "\n");
+                fileWriter.write("Time Step: " + timeStepText + " sec" + "\n" + "\n");
+
+                for (Double aDouble : oscillatesValueList) {
+                    fileWriter.write(String.valueOf(aDouble));
                     fileWriter.write("\r\n");
                 }
                 fileWriter.flush();
@@ -216,6 +233,7 @@ public class GUI implements ActionListener {
             CheckTheImage(plotNameText,filePathText);
         }
     }
+
     /*Image File Open Method*/
     public void CheckTheImage(String plotName,String filePath){
         JFrame frame = new JFrame("Image");

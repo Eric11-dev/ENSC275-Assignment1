@@ -4,7 +4,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+/*Components Model*/
 public class Components {
     private double voltage;
     private double capacitor;
@@ -61,9 +61,9 @@ public class Components {
         this.resistor = resistor;
     }
 
+    /*q(t) Calculation Method*/
     public List<Double> DischargeCalculation(double voltageValue, double capacitorValue, double inductorValue, double resistorValue,
                                              double endTime, double timeStep,String plotName, String filePath) throws IOException {
-
         double dampingFactor = resistorValue/(2*inductorValue);
         double q;
         /*Initialize qList And timeList*/
